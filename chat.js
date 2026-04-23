@@ -10,37 +10,27 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.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}`
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
         model: "llama3-8b-8192",
         messages: [
-          {
-            role: "system",
-            content: "You are Lado AI, a helpful assistant."
-          },
-          {
-            role: "user",
-            content: message
-          }
+          { role: "user", content: message }
         ]
       })
     });
 
     const data = await response.json();
 
-    console.log("Groq response:", data); // IMPORTANT for debugging
+    console.log("DEBUG:", data);
 
-    const reply =
-      data?.choices?.[0]?.message?.content ||
-      data?.error?.message ||
-      "No response from AI";
+    return res.status(200).json({
+      reply: data?.choices?.[0]?.message?.content || "No reply"
+    });
 
-    return res.status(200).json({ reply });
-
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
-      reply: "Server error: " + error.message
+      reply: "Server error"
     });
   }
 }
