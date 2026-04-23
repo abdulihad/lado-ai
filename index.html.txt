@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lado AI</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .msg {
+      margin: 10px 0;
+    }
+    .user { color: #38bdf8; }
+    .bot { color: #a78bfa; }
+    #inputBox {
+      display: flex;
+      padding: 10px;
+      background: #1e293b;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    button {
+      padding: 10px;
+      background: #6366f1;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chat"></div>
+
+<div id="inputBox">
+  <input id="input" placeholder="Ask Lado AI..." />
+  <button onclick="send()">Send</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
