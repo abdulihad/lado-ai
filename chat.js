@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ reply: "Method not allowed" });
   }
@@ -11,14 +10,14 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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"
+        "Authorization": `Bearer ${process.env.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}`
       },
       body: JSON.stringify({
         model: "llama3-8b-8192",
         messages: [
           {
             role: "system",
-            content: "You are Lado AI, a helpful, smart, and friendly assistant."
+            content: "You are Lado AI, a helpful assistant."
           },
           {
             role: "user",
@@ -30,20 +29,18 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // Handle API errors safely
-    if (!data.choices) {
-      return res.status(500).json({
-        reply: "Error: AI response failed."
-      });
-    }
+    console.log("Groq response:", data); // IMPORTANT for debugging
 
-    return res.status(200).json({
-      reply: data.choices[0].message.content
-    });
+    const reply =
+      data?.choices?.[0]?.message?.content ||
+      data?.error?.message ||
+      "No response from AI";
+
+    return res.status(200).json({ reply });
 
   } catch (error) {
     return res.status(500).json({
-      reply: "Error: something went wrong."
+      reply: "Server error: " + error.message
     });
   }
 }
